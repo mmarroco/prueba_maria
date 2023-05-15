@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                       Container(child:
                       Column(
                         children: [
-                          Text('Agrega un excel o csv', style: TextStyle(
+                          Text('Agrega un PDF', style: TextStyle(
                               color: Colors.white
                           ),),
                           Icon(Icons.file_upload,color: Colors.white,)
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       Container(child:
                       Column(
                         children: [
-                          Text('Agrega un excel o csv', style: TextStyle(
+                          Text('Agrega una conexion a SQL', style: TextStyle(
                               color: Colors.white
                           ),),
                           Icon(Icons.file_upload,color: Colors.white,)
