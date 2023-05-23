@@ -144,13 +144,19 @@ class FavoritesPage extends StatelessWidget {
   }
 }
 
-class GeneratorPage extends StatelessWidget {
-  TextEditingController controladorPregunta= TextEditingController(text: ' Haz aqui tu pregunta');
+class GeneratorPage extends StatefulWidget {
+  @override
+  State<GeneratorPage> createState() => _GeneratorPageState();
+}
+
+class _GeneratorPageState extends State<GeneratorPage> {
+  TextEditingController controladorPregunta= TextEditingController();
+
   List<String> listaPreguntas = [];
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
 
     return Center(
 
@@ -167,10 +173,19 @@ class GeneratorPage extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: controladorPregunta,
-                      style: TextStyle(backgroundColor: Colors.black12,
+                      onFieldSubmitted: (value) {
+                        setState(() {
+                          listaPreguntas.add(controladorPregunta.value.text);
+                          //TODO: Agregar API para contestar preguntas.
+                        });
+                        controladorPregunta.clear();
+                      },
+                      style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary),
+                      decoration: InputDecoration(
+                      labelText: "Haz aquí tu pregunta"),
                     ),
                     flex: 3,
                   ),
@@ -178,8 +193,11 @@ class GeneratorPage extends StatelessWidget {
                     flex: 1,
                     child: ElevatedButton.icon(
                         onPressed: (){
-                      listaPreguntas.add(controladorPregunta.value.text);
-                      print(listaPreguntas);
+                         setState(() {
+                           listaPreguntas.add(controladorPregunta.value.text);
+                           //TODO: Agregar API para contestar preguntas.
+                         });
+
                         },
                       icon: Icon(Icons.check),
                       label: Text('Pregunta', style: TextStyle(color: Theme.of(context).colorScheme.secondary, backgroundColor: Colors.blueGrey.shade50),),
@@ -215,6 +233,30 @@ class GeneratorPage extends StatelessWidget {
                 label: Text('Agregar una conexión a SQL', style: TextStyle(color: Theme.of(context).colorScheme.secondary, backgroundColor: Colors.blueGrey.shade50)),
               ),
             ],
+          ),
+          SizedBox(height: 15),
+          Expanded(
+            child: ListView(
+                children:
+                listaPreguntas.map((e) => Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.blueGrey.shade100,
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: (Text(e,style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          backgroundColor: Colors.blueGrey.shade100
+                      ),)),
+                    ),
+                  ),
+                )).toList()
+            ),
           ),
         ],
       ),
